@@ -1,11 +1,12 @@
+#!/usr/bin/env python3
+
 import numpy as np
-import imageio
 import os,sys
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
-import cv2 as cv
 from tqdm import tqdm, tnrange
-from PIL import Image
+from skimage import data, exposure, img_as_float
+
 
 
 
@@ -111,6 +112,15 @@ def make_img_overlay(img, predicted_img):
     new_img = Image.blend(background, overlay, 0.2)
     return new_img
 
+############################################################
+
+def improve_image_contrast(imgs_array):
+    
+    for img in range(imgs_array.shape[0]):
+        v_min, v_max = np.percentile(imgs_array[img], (3.0, 97.0))
+        imgs_array[img] = exposure.rescale_intensity(imgs_array[img], in_range=(v_min, v_max))
+    return imgs_array
+#############################################################
 
 def contineous_to_binary_mask(mask, threshold = 0.25):
     
@@ -118,7 +128,8 @@ def contineous_to_binary_mask(mask, threshold = 0.25):
     mask[np.where(mask<=threshold)] = 0
     
     return mask
-###########################################################
+
+#############################################################
 
 
 def value_to_class(v, foreground_threshold):
@@ -142,11 +153,15 @@ def resize_image_array(array_of_images, new_size = (512, 512)):
 
 ###########################################################
 
-def imgs_array_to_imgs_patch_array(images_array, patch_size = 64, pixel_increment = 16):
+def imgs_array_to_imgs_patch_array(images_array, patch_size = 128, pixel_increment = 16):
     
     nb_pose = int((images_array.shape[1]-patch_size)/pixel_increment) + 1
 
     imgs_patchs_array = np.zeros((int(images_array.shape[0] * nb_pose**2), patch_size, patch_size))
+   
+    print("Convert images to patches, {0} -> {1}, with {2} patches per images...".format(images_array.shape, 
+                                                                                         imgs_patchs_array.shape, 
+                                                                                         nb_pose**2))
     
     for i in tnrange(images_array.shape[0], desc = 'Image cutting'):
         for row in range(nb_pose):
@@ -159,17 +174,17 @@ def imgs_array_to_imgs_patch_array(images_array, patch_size = 64, pixel_incremen
     return imgs_patchs_array
 
 
-def imgs_patch_array_to_imgs_array(imgs_patchs_array, nb_imgs, image_size, patch_size = 64, pixel_increment = 16):
+def imgs_patch_array_to_imgs_array(imgs_patchs_array, nb_imgs, image_size, pixel_increment = 16):
     
+    patch_size = imgs_patchs_array.shape[1]
     imgs_array = np.zeros((nb_imgs, image_size, image_size))
     mask_to_average = np.zeros(imgs_array.shape)
     nb_pose = int((imgs_array.shape[1] - patch_size) / pixel_increment) + 1
     nb_pose_per_image = nb_pose ** 2
     
-    print("Pose per Image : {0}".format(nb_pose_per_image))
-    print("Image Array Size : {0}".format(imgs_array.shape))
-    print("Patch Array Size : {0}".format(imgs_patchs_array.shape))
-    
+    print("Convert patches to images, {0} -> {1}, with {2} patches per images...".format(imgs_patchs_array.shape, 
+                                                                                         imgs_array.shape, 
+                                                                                         nb_pose_per_image))
                           
     for i in tnrange(0, imgs_patchs_array.shape[0], nb_pose_per_image, desc = 'Patches assembling'):
         
@@ -184,7 +199,7 @@ def imgs_patch_array_to_imgs_array(imgs_patchs_array, nb_imgs, image_size, patch
             mask_to_average[img_id, row * pixel_increment : row * pixel_increment + patch_size, 
                             col * pixel_increment : col * pixel_increment + patch_size] += np.ones(img_patch.shape)
 
-    imgs_array = imgs_array/mask_to_average
+    imgs_array = imgs_array/np.float32(mask_to_average)
  
 
     return imgs_array
