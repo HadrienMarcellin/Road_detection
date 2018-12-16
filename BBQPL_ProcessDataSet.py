@@ -211,7 +211,7 @@ class LoadTrainSet(ProcessDataSet):
         print("Performing data augmentation...")
         
         np.random.seed(1)
-        angle_rot = numpy.random.randint(10, 90, (random_rotation, len(X)))
+        angle_rot = numpy.random.randint(0, 90, (random_rotation, len(X)))
         self.imgs_augm = X
         
         if horizontal_flip:

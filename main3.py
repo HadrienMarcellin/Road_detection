@@ -16,14 +16,12 @@ if __name__ == '__main__':
                 testing_strides = 16,
                 patch_size = 128,
                 batch_size = 16,
-                epochs = 5,
+                epochs = 10,
                 nb_filters = 16,
                 test_ratio = 0, 
                 validation_ratio = 0.2,
-                horizontal_flip=False,
-                vertical_flip=False,
-                random_rotation=0,
+                horizontal_flip=True,
+                vertical_flip=True,
+                random_rotation=5,
                 make_prediction = True, 
                 make_training = True)
-    
-

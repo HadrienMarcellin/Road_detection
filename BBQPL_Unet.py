@@ -3,7 +3,7 @@
 from keras.models import *
 from keras.layers import *
 from keras.optimizers import *
-
+import pickle
 
 class UnetModel:
     
@@ -75,20 +75,27 @@ class UnetModel:
         
         assert X_input.shape[2] is self.patch_size, " Input images must be of the size of the model."
         
+        self.epochs = epochs
+        self.batch_size = batch_size
+        
         self.history = self.model.fit(X_input, Y_input, validation_split=validation_ratio, epochs=epochs,
                                       batch_size=batch_size, shuffle=True, callbacks=callbacks)
         
         self.save_model()
         
-    def save_model(self, filename = None):
-        if filename is None:
-            self.filename = "model_" + str(self.nb_filters) + "Filters_" + str(self.horizontal_flip)+ "Hf_" + str(self.vertical_flip) + "Vf_" + str(self.random_rotation) + "RandRot_"  + str(self.patch_size) + "PatchSize"
-            filename = self.filename
+    def save_model(self, suffix = None):
+        if suffix is None:
+            self.suffix = str(self.nb_filters) + "Filters_" + str(self.horizontal_flip)+ "Hf_" + str(self.vertical_flip) + "Vf_" + str(self.random_rotation) + "RandRot_"  + str(self.patch_size) + "PatchSize" + str(self.epochs) + "Epochs"
+            suffix = self.suffix
         
-        print("Saving model into file : {0}".format(filename))
-        self.model.save(filename)
+        print("Saving model into file : {0}".format("model_" + suffix))
+        self.model.save("model_" + suffix)
         
-    
+        print("Saving model's history into file : {0}".format("history_" + suffix))
+        with open("history_" + suffix + ".pickle", 'wb') as handle:
+            pickle.dump(self.history.history, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+
     def load_model(self, title):
         print("Loading model from file : {0}".format(title))
         self.model = load_model(title)
