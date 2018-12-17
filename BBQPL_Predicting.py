@@ -56,7 +56,7 @@ class Predicting():
         
         if patch is None: patch = self.X.imgs_patch
         if nb_imgs is None: nb_imgs = self.dataset_length
-        if imgs_side_size is None: imgs_side_size = self.X.imgs_augm.shape[1]
+        if imgs_side_size is None: imgs_side_size = self.X.imgs_array.shape[1]
         
         
         self.masks_array = imgs_patch_array_to_imgs_array(np.squeeze(patch), 

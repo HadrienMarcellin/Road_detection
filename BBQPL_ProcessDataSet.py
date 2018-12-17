@@ -41,9 +41,7 @@ class ProcessDataSet:
         self.vertical_flip = vertical_flip 
         self.horizontal_flip = horizontal_flip
         self.random_rotation = random_rotation
-        
-        self.imgs_grey = None
-        self.imgs_augm = None
+     
         self.imgs_train = None
         self.imgs_test = None
         
@@ -64,12 +62,12 @@ class ProcessDataSet:
         if len(X.shape) == 4 and self.datatype == 'images':
             print("Processing {0}... Improve contrast and performing grey coloration.".format(self.datatype))
             X = improve_image_contrast(X)
-            self.imgs_processed = np.mean(X, axis = 3)
+            self.imgs_array = np.mean(X, axis = 3)
         if self.datatype == 'masks':
             print("Processing {0}... Make binary mask with threshold : {1}.".format(self.datatype, pixel_threshold))
-            self.imgs_processed = contineous_to_binary_mask(X, pixel_threshold)
+            self.imgs_array = contineous_to_binary_mask(X, pixel_threshold)
      
-        assert (len(self.imgs_processed.shape) > 2), "Input must be an array of images of size \
+        assert (len(self.imgs_array.shape) > 2), "Input must be an array of images of size \
                                                     (N*d*d) for grey scales images or (N*d*d*3) \
                                                     for color images. Actual size is {0}".format(X.shape)
     
@@ -79,7 +77,7 @@ class ProcessDataSet:
         
     def resize_dataset_to_fit_model(self, X = None, patch_size = None, strides = None):
         
-        if X is None: X = self.imgs_augm
+        if X is None: X = self.imgs_array
         if patch_size is None: patch_size = self.patch_size
         if strides is None: strides = self.strides
             
@@ -161,8 +159,7 @@ class LoadTestSet(ProcessDataSet):
     
     def dataset_augmentation(self, X = None):
         
-        if X is None: X = self.imgs_processed
-        self.imgs_augm = self.imgs_processed
+        if X is None: X = self.imgs_array
     
     def process_data(self):
 
@@ -201,7 +198,7 @@ class LoadTrainSet(ProcessDataSet):
         
     def dataset_augmentation(self, X = None, vertical_flip = None, horizontal_flip = None, random_rotation = None):
         
-        if X is None: X = self.imgs_processed
+        if X is None: X = self.imgs_array
         if vertical_flip is None: vertical_flip = self.vertical_flip
         if horizontal_flip is None: horizontal_flip = self.horizontal_flip
         if random_rotation is None: random_rotation = self.random_rotation
@@ -213,14 +210,14 @@ class LoadTrainSet(ProcessDataSet):
         
         np.random.seed(1)
         angle_rot = numpy.random.randint(0, 90, (random_rotation, len(X)))
-        self.imgs_augm = X
+        self.imgs_array = X
         
         if horizontal_flip:
             imgs_horizontal_flip = np.flip(X, axis =  2)
-            self.imgs_augm = np.concatenate((self.imgs_augm, imgs_horizontal_flip), axis = 0)
+            self.imgs_array = np.concatenate((self.imgs_array, imgs_horizontal_flip), axis = 0)
         if vertical_flip:
             imgs_vertical_flip = np.flip(X, axis =  1)
-            self.imgs_augm = np.concatenate((self.imgs_augm, imgs_vertical_flip), axis = 0)
+            self.imgs_array = np.concatenate((self.imgs_array, imgs_vertical_flip), axis = 0)
 
         
         
@@ -233,6 +230,6 @@ class LoadTrainSet(ProcessDataSet):
             if self.datatype == 'masks' :
                 imgs_rot = contineous_to_binary_mask(imgs_rot)
 
-            self.imgs_augm = np.concatenate((self.imgs_augm, imgs_rot), axis = 0)
+            self.imgs_array = np.concatenate((self.imgs_array, imgs_rot), axis = 0)
             
-        print("Input dataset shape : {0} \nAugmented dataset shape: {1}".format(X.shape, self.imgs_augm.shape))
+        print("Input dataset shape : {0} \nAugmented dataset shape: {1}".format(X.shape, self.imgs_array.shape))

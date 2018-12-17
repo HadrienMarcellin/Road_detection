@@ -10,7 +10,7 @@ if __name__ == '__main__':
                 testing_images_dir="test_set_images/",
                 predicted_dir = 'results/',
                 submission_filename = 'submission',
-                training_dataset_length = 5, 
+                training_dataset_length = 1, 
                 testing_dataset_length = 2,
                 training_strides = 16,
                 testing_strides = 16,
@@ -20,9 +20,9 @@ if __name__ == '__main__':
                 nb_filters = 16,
                 test_ratio = 0, 
                 validation_ratio = 0.2,
-                horizontal_flip=False,
-                vertical_flip=False,
-                random_rotation=0,
+                horizontal_flip=True,
+                vertical_flip=True,
+                random_rotation=1,
                 make_prediction = True, 
                 make_training = True)
     
