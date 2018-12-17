@@ -27,12 +27,10 @@ class Predicting():
         self.images_dir = images_dir
         self.predicted_dir = predicted_dir
         self.submission_filename = submission_filename
-        self.u_net = u_net
-        self.dataset_length = dataset_length
+        self.u_net = u_net        
         self.patch_size = patch_size
         self.strides = strides
-        self.seed = seed
-        
+        self.seed = seed        
         self.test_ratio = 1
         
         assert self.u_net is not None, "You must give a model to the \'Predicting()\' class."
@@ -41,7 +39,8 @@ class Predicting():
                                 patch_size = patch_size, strides = strides, test_ratio = self.test_ratio, seed = seed)
         
         self.image_shape = (self.X.imgs_array.shape[1], self.X.imgs_array.shape[2])
-        
+        self.dataset_length = self.X.dataset_length
+        print("dataset lenght = {0}".format(self.dataset_length))
         
     def process_data(self):            
         self.X.process_data()

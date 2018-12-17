@@ -51,6 +51,7 @@ class ProcessDataSet:
             self.load_images() 
         else:
             self.imgs_array = imgs_array
+            self.dataset_length = self.imgs_array.shape[0]
         
         
 
@@ -145,14 +146,14 @@ class LoadTestSet(ProcessDataSet):
         assert imgs_path is not None, "Must specify a relative path for dataset"
         
         self.repositories = sorted(os.listdir(imgs_path))
-        dataset_length = len(self.repositories) if dataset_length == 'all' else min(dataset_length, len(self.repositories))
+        self.dataset_length = len(self.repositories) if dataset_length == 'all' else min(dataset_length, len(self.repositories))
 
         file = os.listdir(imgs_path + self.repositories[0])
 
         image = load_image(imgs_path + self.repositories[0]+'/'+file[0])
-        self.imgs_array = np.zeros((dataset_length, image.shape[0], image.shape[1], image.shape[2]))
+        self.imgs_array = np.zeros((self.dataset_length, image.shape[0], image.shape[1], image.shape[2]))
 
-        for i, repo in enumerate(self.repositories[:dataset_length]):
+        for i, repo in enumerate(self.repositories[:self.dataset_length]):
             file = os.listdir(imgs_path + repo)
             assert len(file) == 1, "Each directory must contain only one picture."
             image = load_image(imgs_path + repo + '/' + file[0])
@@ -183,9 +184,9 @@ class LoadTrainSet(ProcessDataSet):
         assert imgs_path is not None, "Must specify a relative path for dataset"
         
         files = os.listdir(imgs_path)
-        dataset_length = len(files) if dataset_length == 'all' else min(dataset_length, len(files))
+        self.dataset_length = len(files) if dataset_length == 'all' else min(dataset_length, len(files))
         
-        imgs = [load_image(imgs_path + files[i]) for i in range(dataset_length)]
+        imgs = [load_image(imgs_path + files[i]) for i in range(self.dataset_length)]
         self.imgs_array = np.asarray(imgs)
         
     def process_data(self, test_ratio = None):
