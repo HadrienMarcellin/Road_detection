@@ -1,6 +1,6 @@
 # Road detection from satellite images
 
-In the scope of this project, we aim to analyse satellites images to detect with precision the location of the roads. To this end, we use well known Machine Learning and Image Processing algorithms.
+In the scope of this project, we aim to analyse satellite images to detect with precision the location of the roads. To this end, we use well known Machine Learning and Image Processing algorithms.
 
 This project is fully implemented in python, we use many external libraries to compute heavy calculations. In order to run the code and reproduce the results, you should setup your environment to meet the numerous dependencies listed in the next section. 
 The provided code allows you to create and train a new model given a bench of input parameters and input training set. You can also use an existing model and test its prediction on any other set of images.
@@ -9,15 +9,16 @@ The provided code allows you to create and train a new model given a bench of in
 
 The project depends on many external libraries that help us compute tough tasks. Here is the list of which your environment must satisfy before you run the code.
 
-- `numpy` : allows different kind of operation on multi-dimensional arrays. 
-- `imageio`: allows to load and save images.
-- `Keras` : allows a simplified use of 'Tensorflow' library.   
-- `Tensorflow` : allows to model and train a neural network
-- `matplotlib` : allows to display results under graphs or images.
-- `tqdm`: allows to display loading bars.
-- `PIL`:
-- `scikit-image` : 
-- `scipy`:
+- `numpy` : Allows different kind of operations on multi-dimensional arrays. 
+- `imageio`: Allows to load and save images.
+- `Keras` : Allows a simplified use of 'Tensorflow' library.   
+- `Tensorflow` : Allows to model and train a neural network
+- `matplotlib` : Allows to display results under graphs or images. It ùalso provide tools to load images.
+- `tqdm`: Allows to display loading bars in 'for' loop.
+- `scikit-image` : Provides tools to process rgb and greyscale images.  
+- `scipy`: Provides tools to save images.
+- `sklearn` : Provides computations for f1 score and other metrics.
+- `pickle` : Provides tools to save the history of the trained model.
 
 
 ## Run
