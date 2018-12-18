@@ -26,29 +26,29 @@ You can now clone and run the project. To that end, you may download a set of im
   
 You will find in the run.py a call function for the initialisation of an object of the class Pipeline with the following parameters :
 
-- u_net_file : (default None)
-- u_net_suffix : (default = '')
-- training_images_dir  :(default = None) 
-- training_masks_dir : (default = None) 
-- testing_images_dir : (default = None)
-- predicted_dir : (default = None)
-- submission_filename : (default = None)
-- training_dataset_length : (default='all'), 
-- testing_dataset_length = 'all',
-- training_strides = (default = '16')
-- testing_strides = (default = 16)
-- patch_size : (default = 128)
-- batch_size : (default = 16)
-- epochs : (default = 5)
-- nb_filters : (default = 16)
-- test_ratio : (default =  0) 
-- validation_ratio : (default =  0.2)
-- horizontal_flip : (default =  False)
-- vertical_flip : (default =  False)
-- preprocess : (default =  False)
-- random_rotation : (default =  0)
-- make_prediction : (default =  True)
-- make_training : (default =  True) 
+- `u_net_file` : (default None)
+- `u_net_suffix` : (default = '')
+- `training_images_dir`  :(default = None) 
+- `training_masks_dir` : (default = None) 
+- `testing_images_dir` : (default = None)
+- `predicted_dir` : (default = None)
+- `submission_filename` : (default = None)
+- `training_dataset_length` : (default = 'all'), 
+- `testing_dataset_length` : (default = 'all'),
+- `training_strides` = (default = '16')
+- `testing_strides` = (default = 16)
+- `patch_size` : (default = 128)
+- `batch_size` : (default = 16)
+- `epochs` : (default = 5)
+- `nb_filters` : (default = 16)
+- `test_ratio` : (default =  0) 
+- `validation_ratio` : (default =  0.2)
+- `horizontal_flip` : (default =  False)
+- `vertical_flip` : (default =  False)
+- `preprocess` : (default =  False)
+- `random_rotation` : (default =  0)
+- `make_prediction` : (default =  True)
+- `make_training` : (default =  True) 
 
 
 You may edit this file and tune the parameters of interest to change the training of the model.
