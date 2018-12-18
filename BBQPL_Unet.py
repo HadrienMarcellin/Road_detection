@@ -7,12 +7,13 @@ import pickle
 
 class UnetModel:
     
-    def __init__(self, nb_filters = 16, patch_size = 128, horizontal_flip = False, vertical_flip = False, random_rotation = False):
+    def __init__(self, nb_filters = 16, patch_size = 128, horizontal_flip = False, vertical_flip = False, random_rotation = False, u_net_suffix = ''):
         self.nb_filters = nb_filters
         self.patch_size = patch_size
         self.horizontal_flip = horizontal_flip
         self.vertical_flip = vertical_flip
         self.random_rotation = random_rotation
+        self.u_net_suffix = u_net_suffix
         
     def build_model(self, nb_filters = None, patch_size = None):
         if nb_filters is None: nb_filters = self.nb_filters
@@ -85,7 +86,7 @@ class UnetModel:
         
     def save_model(self, suffix = None):
         if suffix is None:
-            self.suffix = str(self.nb_filters) + "Filters_" + str(self.horizontal_flip)+ "Hf_" + str(self.vertical_flip) + "Vf_" + str(self.random_rotation) + "RandRot_"  + str(self.patch_size) + "PatchSize" + str(self.epochs) + "Epochs"
+            self.suffix = str(self.nb_filters) + "Filters_" + str(self.horizontal_flip)+ "Hf_" + str(self.vertical_flip) + "Vf_" + str(self.random_rotation) + "RandRot_"  + str(self.patch_size) + "PatchSize_" + str(self.epochs) + "Epochs_" + self.u_net_suffix
             suffix = self.suffix
         
         print("Saving model into file : {0}".format("model_" + suffix))

@@ -15,6 +15,7 @@ class Pipeline:
     
     def __init__(self, 
                  u_net_file = None, 
+                 u_net_suffix = '',
                  training_images_dir = None, 
                  training_masks_dir = None, 
                  testing_images_dir = None, 
@@ -24,12 +25,13 @@ class Pipeline:
                  testing_dataset_length = 'all',
                  training_strides = 16,
                  testing_strides = 16,
-                 patch_size = 128,
+                 patch_size = 16,
                  batch_size = 16,
                  epochs = 5,
                  nb_filters = 16,
                  test_ratio = 0.2, 
                  validation_ratio = 0.2, 
+                 preprocess = True,
                  seed = 1, 
                  vertical_flip = False, 
                  horizontal_flip = False, 
@@ -72,8 +74,10 @@ class Pipeline:
                                     epochs = self.epochs,
                                     nb_filters = self.nb_filters,
                                     vertical_flip = vertical_flip,
-                                    horizontal_flip = horizontal_flip, 
+                                    horizontal_flip = horizontal_flip,
+                                    preprocess = preprocess,
                                     random_rotation = random_rotation,
+                                    u_net_suffix = u_net_suffix,
                                     seed = self.seed)
             
             self.training.process_data()
@@ -89,7 +93,8 @@ class Pipeline:
                                     u_net = self.u_net,
                                     dataset_length = self.testing_dataset_length,
                                     patch_size = self.patch_size, 
-                                    strides = self.testing_strides, 
+                                    strides = self.testing_strides,
+                                    preprocess = preprocess,
                                     predicted_dir = self.predicted_dir,
                                     submission_filename = self.submission_filename,
                                     seed = self.seed)

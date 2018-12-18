@@ -22,6 +22,7 @@ class Predicting():
                  dataset_length = 'all',
                  patch_size = 128, 
                  strides = 16,
+                 preprocess = True,
                  seed = 1):
         
         self.images_dir = images_dir
@@ -36,7 +37,7 @@ class Predicting():
         assert self.u_net is not None, "You must give a model to the \'Predicting()\' class."
         
         self.X = LoadTestSet(imgs_path = images_dir, dataset_length = dataset_length, datatype = 'images', 
-                                patch_size = patch_size, strides = strides, test_ratio = self.test_ratio, seed = seed)
+                                patch_size = patch_size, strides = strides, preprocess = preprocess, test_ratio = self.test_ratio, seed = seed)
         
         self.image_shape = (self.X.imgs_array.shape[1], self.X.imgs_array.shape[2])
         self.dataset_length = self.X.dataset_length

@@ -27,17 +27,21 @@ class Training:
                  nb_filters = 16,
                  vertical_flip = False, 
                  horizontal_flip = False, 
+                 preprocess = True,
                  random_rotation = 0,
+                 u_net_suffix = '',
                  seed = 1):
         
        
 
         self.X = LoadTrainSet(imgs_path = imgs_path, dataset_length = dataset_length, datatype = 'images', 
-                              patch_size = patch_size, strides = strides, test_ratio = test_ratio, vertical_flip = vertical_flip, 
-                              horizontal_flip = horizontal_flip, random_rotation = random_rotation, seed = seed)
+                              patch_size = patch_size, strides = strides, test_ratio = test_ratio, 
+                              vertical_flip = vertical_flip, horizontal_flip = horizontal_flip, 
+                              preprocess = preprocess, random_rotation = random_rotation, seed = seed)
         self.Y = LoadTrainSet(imgs_path = masks_path, dataset_length = dataset_length, datatype = 'masks', 
-                              patch_size = patch_size, strides = strides, test_ratio = test_ratio, vertical_flip = vertical_flip, 
-                              horizontal_flip = horizontal_flip, random_rotation = random_rotation, seed = seed)
+                              patch_size = patch_size, strides = strides, test_ratio = test_ratio, 
+                              vertical_flip = vertical_flip, horizontal_flip = horizontal_flip, 
+                              preprocess = preprocess, random_rotation = random_rotation, seed = seed)
         
         self.dataset_length = dataset_length
         self.epochs = epochs
@@ -55,7 +59,8 @@ class Training:
                                 patch_size = self.patch_size, 
                                 horizontal_flip = self.horizontal_flip, 
                                 vertical_flip = self.vertical_flip, 
-                                random_rotation = self.random_rotation)
+                                random_rotation = self.random_rotation, 
+                                u_net_suffix = u_net_suffix)
         
         
         

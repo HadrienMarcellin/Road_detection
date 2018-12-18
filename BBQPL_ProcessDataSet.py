@@ -26,6 +26,7 @@ class ProcessDataSet:
                  vertical_flip = False, 
                  horizontal_flip = False, 
                  random_rotation = 0,
+                 preprocess = True,
                  seed = 1):
         
         print("Initiating dataset : {0} ...".format(datatype))
@@ -37,6 +38,7 @@ class ProcessDataSet:
         self.batch_size = batch_size
         self.datatype = datatype
         self.test_ratio = test_ratio
+        self.preprocess = preprocess
         
         self.vertical_flip = vertical_flip 
         self.horizontal_flip = horizontal_flip
@@ -61,7 +63,8 @@ class ProcessDataSet:
                     
         if len(X.shape) == 4 and self.datatype == 'images':
             print("Processing {0}... Improve contrast and performing grey coloration.".format(self.datatype))
-            X = improve_image_contrast(X)
+            if self.preprocess:
+                X = improve_image_contrast(X)
             self.imgs_array = np.mean(X, axis = 3)
         if self.datatype == 'masks':
             print("Processing {0}... Make binary mask with threshold : {1}.".format(self.datatype, pixel_threshold))
@@ -232,4 +235,4 @@ class LoadTrainSet(ProcessDataSet):
 
             self.imgs_array = np.concatenate((self.imgs_array, imgs_rot), axis = 0)
             
-        print("Input dataset shape : {0} \nAugmented dataset shape: {1}".format(X.shape, self.imgs_array.shape))
+        print("Dataset augmentation shape : {0} -> {1}".format(X.shape, self.imgs_array.shape))
