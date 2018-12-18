@@ -163,7 +163,7 @@ def imgs_array_to_imgs_patch_array(images_array, patch_size = 128, pixel_increme
                                                                                          imgs_patchs_array.shape, 
                                                                                          nb_pose**2))
     
-    for i in tnrange(images_array.shape[0], desc = 'Image cutting'):
+    for i in range(images_array.shape[0]):
         for row in range(nb_pose):
             for col in range(nb_pose):
                 imgs_patchs_array[i*nb_pose**2 + nb_pose*row+col, :, :] = images_array[i, row * pixel_increment : row * pixel_increment 
@@ -186,7 +186,7 @@ def imgs_patch_array_to_imgs_array(imgs_patchs_array, nb_imgs, image_size, pixel
                                                                                          imgs_array.shape, 
                                                                                          nb_pose_per_image))
                           
-    for i in tnrange(0, imgs_patchs_array.shape[0], nb_pose_per_image, desc = 'Patches assembling'):
+    for i in range(0, imgs_patchs_array.shape[0], nb_pose_per_image):
         
         img_id = int(i/nb_pose_per_image)
         
