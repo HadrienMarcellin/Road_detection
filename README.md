@@ -27,13 +27,13 @@ You can now clone and run the project. To that end, you may download a set of im
   
 You will find in the run.py a call function for the initialisation of an object of the class Pipeline with the following parameters :
 
-- `u_net_file` : (default None)
-- `u_net_suffix` : (default = '')
-- `training_images_dir`  :(default = None) 
-- `training_masks_dir` : (default = None) 
-- `testing_images_dir` : (default = None)
-- `predicted_dir` : (default = None)
-- `submission_filename` : (default = None)
+- `u_net_file` : (*default* = None)
+- `u_net_suffix` : (*default* = '')
+- `training_images_dir`  :(*default* = None) 
+- `training_masks_dir` : (*default* = None) 
+- `testing_images_dir` : (*default* = None)
+- `predicted_dir` : (*default* = None)
+- `submission_filename` : (*default* = None)
 - `training_dataset_length` : (default = 'all'), 
 - `testing_dataset_length` : (default = 'all'),
 - `training_strides` = (default = '16')
