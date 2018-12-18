@@ -32,7 +32,7 @@ class Training:
                  u_net_suffix = '',
                  seed = 1):
         
-       """
+        """
         Descrition :
         -------------
             Creates a new instance of the class Training. This class allows the creation and the training of a Unet model based on a training set and several parameters to design it. This class also allow to load a set of images and masks and process them. 

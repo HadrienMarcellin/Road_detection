@@ -47,7 +47,7 @@ class Pipeline:
         Parameters :
         -------------
             u_net_file = None, string.
-                Name of the existing Unet model to load. if not None, overrides `make_training` and skip training.
+                Name of the existing Unet model to load.
             u_net_suffix = '', string.
                 Suffix to add at the end of the model file when saving it.
             training_images_dir = None, string.

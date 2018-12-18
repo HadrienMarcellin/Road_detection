@@ -4,7 +4,7 @@ from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_
 from BBQPL_image_processing import contineous_to_binary_mask
 
 class Metrics(Callback):
-
+    
     def on_train_begin(self, logs={}):
         self.val_f1s = []
         self.val_recalls = []
@@ -12,6 +12,7 @@ class Metrics(Callback):
 
     def on_epoch_end(self, epoch, logs={}):
         
+        self.model.save('model_epoch_{0}'.format(epoch))
         val_predict = np.asarray(self.model.predict(self.validation_data[0]))
         val_predict = contineous_to_binary_mask(val_predict).ravel()
         val_targ = self.validation_data[1].ravel()
