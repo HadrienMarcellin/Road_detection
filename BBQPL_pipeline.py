@@ -38,6 +38,70 @@ class Pipeline:
                  random_rotation = 0,
                  make_training = True,
                  make_prediction = True):
+        """
+        Descrition :
+        -------------
+            Creates a new instance of the class Pipleline. This class allows the creation and the training of a Unet model based on a training set and several parameters to design it. This class also allow to load an existing model and load a set of images to test its predictions. 
+        
+        
+        Parameters :
+        -------------
+            u_net_file = None, string.
+                Name of the existing Unet model to load.
+            u_net_suffix = '', string.
+                Suffix to add at the end of the model file when saving it.
+            training_images_dir = None, string.
+                relative path to the directory that contains the training data set images.
+            training_masks_dir = None, string.
+                relative path to the directory that contains the training data set masks.
+            testing_images_dir = None, string.
+                relative path to the directory that contains the testing data set images.
+            predicted_dir = 'results/', string.
+                relative path to the directory that will contain the predicted masks.
+            submission_filename = 'submission', string.
+                Name of the file to submit to the CrowdAI plateform. The file will be saved as a '.csv'.
+            training_dataset_length = 'all', int.
+                Length of the trainig dataset to use. if 'all', take the full dataset.
+            testing_dataset_length = 'all', int.
+                Length of the testing dataset to use. if 'all', take the full dataset.
+            training_strides = 16, int.
+                Length of the strides to use on the training set to move the patch on the image. 
+            testing_strides = 16, int.
+                Length of the strides to use on the testing set to move the patch on the image. 
+            patch_size = 16, int.
+                Size of the square patches that are used to cut the image and feed the model. 
+            batch_size = 16, int.
+                Batch size for the SGD training alogithm.
+            epochs = 5, int.
+                Number of epochs for the training.
+            nb_filters = 16, int.
+                Number of filters the unet model should start with. 
+            test_ratio = 0.2, float. 
+                Ratio of the training set to use for testing, at the end of the training. (test_ratio < 1) 
+            validation_ratio = 0.2, float.
+                Ratio of the training set to use for validation, at the end of each epoch. (validation_ratio < 1) 
+            preprocess = True, bool.
+                Apply image preprocessing before training.
+            seed = 1, int. 
+                Defines random constant.
+            vertical_flip = False, bool
+                Apply vertical flip to the training set before training for data augmentation.
+            horizontal_flip = False, bool.
+                Apply horizontal flip to the training set before training for data augmentation.
+            random_rotation = 0, int.
+                Number of random rotations per image to apply to the training set before training for data augmentation.
+            make_training = True, bool.
+                Perform training if True.
+            make_prediction = True
+                Perform prediction if True.
+        
+        Returns :
+        -----------
+        Pipeline instance.
+
+        """
+        
+        
         
         print("Initiating pipeline ...")
         
@@ -103,27 +167,6 @@ class Pipeline:
             self.predicting.save_prediction()
             self.predicting.create_submission_file()
         
-                
 
-    
-class graphic_display:
-    
-    def __init__(self):
-        return
-    
-    def display_image_mask(self, image1, image2):
-        
-        assert image1.shape[1] == image2.shape[1]
-        
-        cimg = np.concatenate((image1, image2), axis = 1)
-        plt.imshow(cimg, cmap='Greys_r')
-        plt.show
-        return cimg
-    
-    def display_range_images(self):
-        return figure
-    
-    def dispaly_random_images(self):
-        return figure
         
         

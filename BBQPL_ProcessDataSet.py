@@ -29,6 +29,49 @@ class ProcessDataSet:
                  preprocess = True,
                  seed = 1):
         
+        """
+        Descrition :
+        -------------
+            Creates a new instance of the class ProcessDataSet. This class allows the loading and processing of a unique set of image. This class also allow to load an existing array of image and performs image preprocessing, data augmentation, format conversion from images to patches and data spliting according to the test ratio. 
+        
+        
+        Parameters :
+        -------------
+            
+            imgs_path = None, string.
+                relative path to the directory that contains the training data set images.
+            imgs_array = None, np.array.
+                Array of images. if not None, overrides imgs_path.
+            dataset_length = 'all', int.
+                Length of the trainig dataset to use. if 'all', take the full dataset.
+            strides = 16, int.
+                Length of the strides to use on the training set to move the patch on the image. 
+            patch_size = 16, int.
+                Size of the square patches that are used to cut the image and feed the model. 
+            batch_size = 16, int.
+                Batch size for the SGD training alogithm. (deprecated, not used)
+            test_ratio = 0.2, float. 
+                Ratio of the training set to use for testing, at the end of the training. (test_ratio < 1) 
+            datatype = 'None', string.
+                'images' or 'masks'.
+            preprocess = True, bool.
+                Apply image preprocessing before training.
+            seed = 1, int. 
+                Defines random constant.
+            vertical_flip = False, bool
+                Apply vertical flip to the training set before training for data augmentation.
+            horizontal_flip = False, bool.
+                Apply horizontal flip to the training set before training for data augmentation.
+            random_rotation = 0, int.
+                Number of random rotations per image to apply to the training set before training for data augmentation.
+            
+        
+        Returns :
+        -----------
+        ProcessDataSet instance.
+
+        """
+        
         print("Initiating dataset : {0} ...".format(datatype))
         
         self.imgs_path = imgs_path
@@ -59,6 +102,21 @@ class ProcessDataSet:
     
     def image_preprocessing(self, X = None, pixel_threshold = 0.25):
         
+        """
+        Description:
+        --------------
+        Perform image preprocessing depending on the datatype. Improves contrast for 'images' type and apply a binary filter on 'masks' type.
+        
+        Parameters:
+        --------------
+        X = None, np.array
+            array of images to process
+        pixel_threshold = 0.25, float
+            thresholf for binary filter for 'masks'
+        
+        """
+        
+        
         if X is None: X = self.imgs_array
                     
         if len(X.shape) == 4 and self.datatype == 'images':
@@ -79,6 +137,21 @@ class ProcessDataSet:
         
         
     def resize_dataset_to_fit_model(self, X = None, patch_size = None, strides = None):
+        """
+        Description:
+        --------------
+        Converts image array to patch array.
+        
+        Parameters:
+        --------------
+        X = None, np.array
+            array of images to process
+        strides = None, int.
+                Length of the strides to use on the training set to move the patch on the image. 
+        patch_size = None, int.
+            Size of the square patches that are used to cut the image and feed the model.
+        
+        """
         
         if X is None: X = self.imgs_array
         if patch_size is None: patch_size = self.patch_size
@@ -88,7 +161,19 @@ class ProcessDataSet:
 
     
     def split_data(self, X = None, test_ratio = None):
+        """
+        Description:
+        --------------
+        Split the data into a training set and a test set.
         
+        Parameters:
+        --------------
+        X = None, np.array
+            array of images to process
+        test_ratio = None, int.
+            Ratio of the training set to use for testing, at the end of the training. (test_ratio < 1).
+        
+        """
         print("spliting dataset.")
         
         if X is None: X = self.imgs_patch
@@ -115,6 +200,21 @@ class ProcessDataSet:
         
     
     def display_images(self, obj = None, range_ = None, mod = None):
+        
+        """
+        Description :
+        --------------
+        Dispaly set of images. By default, displays images from input.
+        
+        Parameters :
+        --------------
+        img_obj = None, np.array.
+            array of images.
+        range_ = None, range
+            range in which we select a subset of indices.
+        mod = None, int
+            period of the selected images to display 
+        """
         if obj is None: obj = self.imgs_array
         if range_ is None: range_ = range(obj.shape[0])
         if mod is None: mod = int(obj.shape[0]/10)
@@ -137,9 +237,23 @@ class ProcessDataSet:
         
         
 class LoadTestSet(ProcessDataSet):
-    
+    """
+    Derived class of ProcessDataSet made for Test Set.
+    """
 
     def load_images(self, imgs_path = None, dataset_length = 'all'):
+        """
+        Description:
+        --------------
+        Load images for test set from directories.
+        
+        Parameters:
+        --------------
+        imgs_path = None, string.
+            relative path to the image folder.
+        dataset_length = 'all', int.
+            Length of the data set to load. By default, 'all' loads the full data set.
+        """
         
         if imgs_path is None: imgs_path = self.imgs_path
         if self.dataset_length is not None: dataset_length = self.dataset_length
@@ -165,7 +279,11 @@ class LoadTestSet(ProcessDataSet):
         if X is None: X = self.imgs_array
     
     def process_data(self):
-
+        """
+        Description : 
+        --------------
+        Process the input data to feed the model.
+        """
         self.image_preprocessing()
         self.dataset_augmentation()
         self.resize_dataset_to_fit_model()
@@ -174,9 +292,23 @@ class LoadTestSet(ProcessDataSet):
         
         
 class LoadTrainSet(ProcessDataSet):
-    
+    """
+    Derived class of ProcessDataSet made for Train Set.
+    """
 
     def load_images(self, imgs_path = None, dataset_length = 'all'):
+        """
+        Description:
+        --------------
+        Load images for test set from directories.
+        
+        Parameters:
+        --------------
+        imgs_path = None, string.
+            relative path to the image folder.
+        dataset_length = 'all', int.
+            Length of the data set to load. By default, 'all' loads the full data set.
+        """
         
         if imgs_path is None: imgs_path = self.imgs_path
         if self.dataset_length is not None: dataset_length = self.dataset_length
@@ -190,7 +322,16 @@ class LoadTrainSet(ProcessDataSet):
         self.imgs_array = np.asarray(imgs)
         
     def process_data(self, test_ratio = None):
+        """
+        Description : 
+        --------------
+        Process the input data to feed the model.
         
+        Parameters : 
+        --------------
+        test_ratio = None, int.
+            Ratio of the training set to use for testing, at the end of the training. (test_ratio < 1).
+        """
         if test_ratio is None: test_ratio = self.test_ratio
             
         self.image_preprocessing()
@@ -200,7 +341,20 @@ class LoadTrainSet(ProcessDataSet):
         #self.display_images(obj = self.imgs_patch, range_ = range(1))
         
     def dataset_augmentation(self, X = None, vertical_flip = None, horizontal_flip = None, random_rotation = None):
+        """
+        Description:
+        -------------
+        Performs a data augmentation.
         
+        Parameters:
+        -------------
+        vertical_flip = None, bool
+            Apply vertical flip to the training set before training for data augmentation.
+        horizontal_flip = None, bool.
+            Apply horizontal flip to the training set before training for data augmentation.
+        random_rotation = None, int.
+            Number of random rotations per image to apply to the training set before training for data augmentation.
+        """
         if X is None: X = self.imgs_array
         if vertical_flip is None: vertical_flip = self.vertical_flip
         if horizontal_flip is None: horizontal_flip = self.horizontal_flip
