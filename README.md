@@ -9,21 +9,10 @@ The provided code allows you to create and train a new model given a bench of in
 
 The project depends on many external libraries that help us compute tough tasks. Here is the list of which your environment must satisfy before you run the code.
 
-- `python3` : Python is an easy to learn, powerful programming language.
-- `numpy` : Allows different kind of operations on multi-dimensional arrays. 
-- `Keras` : Allows a simplified use of 'Tensorflow' library.   
-- `Tensorflow` : Allows to model and train a neural network
-- `matplotlib` : Allows to display results under graphs or images. It ùalso provide tools to load images.
-- `scikit-image` : Provides tools to process rgb and greyscale images.  
-- `scipy`: Provides tools to save images.
-- `sklearn` : Provides computations for f1 score and other metrics.
-- `pickle` : Provides tools to save the history of the trained model.
-
-
 | Package       | Version           | Description  |
 |:------------- |:-------------:|:-----|
-| python3      | 3.6.6 | Python is an easy to learn, powerful programming language.|
-| numpy     | 1.15.4 | Allows different kind of operations on multi-dimensional arrays. |
+| `python3` | 3.6.6 | Python is an easy to learn, powerful programming language.|
+| `numpy`| 1.15.4 | Allows different kind of operations on multi-dimensional arrays. |
 |`Keras` | 2.2.4| Allows a simplified use of 'Tensorflow' library.  |  
 | `Tensorflow` |1.12.0| Allows to model and train a neural network. |
 |`matplotlib` |3.0.2| Allows to display results under graphs or images. It also provide tools to load images.|
