@@ -27,30 +27,30 @@ You can now clone and run the project. To that end, you may download a set of im
   
 You will find in the run.py a call function for the initialisation of an object of the class Pipeline with the following parameters :
 
-- `u_net_file` : (*default* = None)
-- `u_net_suffix` : (*default* = '')
-- `training_images_dir`  :(*default* = None) 
-- `training_masks_dir` : (*default* = None) 
-- `testing_images_dir` : (*default* = None)
-- `predicted_dir` : (*default* = None)
-- `submission_filename` : (*default* = None)
-- `training_dataset_length` : (*default* = 'all'), 
-- `testing_dataset_length` : (*default* = 'all'),
-- `training_strides` = (*default* = '16')
-- `testing_strides` = (*default* = 16)
-- `patch_size` : (*default* = 128)
-- `batch_size` : (*default* = 16)
-- `epochs` : (*default* = 5)
-- `nb_filters` : (*default* = 16)
-- `test_ratio` : (*default* =  0) 
-- `validation_ratio` : (*default* =  0.2)
-- `horizontal_flip` : (*default* =  False)
-- `vertical_flip` : (*default* =  False)
-- `preprocess` : (*default* =  False)
-- `random_rotation` : (*default* =  0)
-- `make_prediction` : (*default* =  True)
-- `make_training` : (*default* =  True) 
-
+- `u_net_file` : (*default* = None). Name of the existing Unet model to load.
+- `u_net_suffix` : (*default* = ''). Suffix to add at the end of the model file when saving it.
+- `training_images_dir`  :(*default* = None). Relative path to the directory that contains the training data set images. 
+- `training_masks_dir` : (*default* = None). Relative path to the directory that contains the training data set masks.
+- `testing_images_dir` : (*default* = None). Relative path to the directory that contains the testing data set images.
+- `predicted_dir` : (*default* = None). Relative path to the directory that will contain the predicted masks.
+- `submission_filename` : (*default* = None). Name of the file to submit to the CrowdAI plateform. The file will be saved as a '.csv'.
+- `training_dataset_length` : (*default* = 'all'). Length of the trainig dataset to use. if 'all', take the full dataset.
+- `testing_dataset_length` : (*default* = 'all'). Length of the testing dataset to use. if 'all', take the full dataset.
+- `training_strides` = (*default* = '16'). Length of the strides to use on the training set to move the patch on the image. 
+- `testing_strides` = (*default* = 16). Length of the strides to use on the testing set to move the patch on the image. 
+- `patch_size` : (*default* = 128). Size of the square patches that are used to cut the image and feed the model. 
+- `batch_size` : (*default* = 16). Batch size for the SGD training alogithm.
+- `epochs` : (*default* = 5). Number of epochs for the training.
+- `nb_filters` : (*default* = 16). Number of filters the unet model should start with. 
+- `test_ratio` : (*default* =  0.2). Ratio of the training set to use for testing, at the end of the training. (test_ratio < 1).
+- `validation_ratio` : (*default* =  0.2). Ratio of the training set to use for validation, at the end of each epoch. (validation_ratio < 1).
+- `horizontal_flip` : (*default* =  False). Apply horizontal flip to the training set before training for data augmentation.
+- `vertical_flip` : (*default* =  False). Apply vertical flip to the training set before training for data augmentation.
+- `preprocess` : (*default* =  False). Apply image preprocessing before training.
+- `seed` : (*default* = 1). Defines random constant.
+- `random_rotation` : (*default* =  0). Number of random rotations per image to apply to the training set before training for data augmentation.
+- `make_prediction` : (*default* =  True). Perform prediction if True.
+- `make_training` : (*default* =  True). Perform training if True.
 
 You may edit this file and tune the parameters of interest to change the training of the model.
 
