@@ -4,7 +4,6 @@ import numpy as np
 import os,sys
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
-from tqdm import tqdm, tnrange
 from skimage import data, exposure, img_as_float
 
 
