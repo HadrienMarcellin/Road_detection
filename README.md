@@ -21,9 +21,15 @@ The project depends on many external libraries that help us compute tough tasks.
 
 
 | Package       | Version           | Description  |
-| ------------- |:-------------:| -----:|
+|:------------- |:-------------:|:-----|
 | python3      | 3.6.6 | Python is an easy to learn, powerful programming language.|
 | numpy     | 1.15.4 | Allows different kind of operations on multi-dimensional arrays. |
+|`Keras` | 2.2.4| Allows a simplified use of 'Tensorflow' library.  |  
+| `Tensorflow` |1.12.0| Allows to model and train a neural network. |
+|`matplotlib` |3.0.2| Allows to display results under graphs or images. It also provide tools to load images.|
+| `scikit-image` |0.14.1| Provides tools to process rgb and greyscale images.|
+| `scipy`|1.1.0| Provides tools to save images.|
+| `sickit-learn` |0.20.1| Provides computations for f1 score and other metrics.|
 
 ## Run
 
