@@ -16,9 +16,9 @@ class Pipeline:
     def __init__(self, 
                  u_net_file = None, 
                  u_net_suffix = '',
-                 training_images_dir = None, 
-                 training_masks_dir = None, 
-                 testing_images_dir = None, 
+                 training_images_dir = 'training/images/', 
+                 training_masks_dir = 'training/groundtruth/', 
+                 testing_images_dir = 'test_set_images/', 
                  predicted_dir = 'results/',
                  submission_filename = 'submission',
                  training_dataset_length = 'all',
@@ -50,11 +50,11 @@ class Pipeline:
                 Name of the existing Unet model to load.
             u_net_suffix = '', string.
                 Suffix to add at the end of the model file when saving it.
-            training_images_dir = None, string.
+            training_images_dir = 'training/images/', string.
                 relative path to the directory that contains the training data set images.
-            training_masks_dir = None, string.
+            training_masks_dir = 'training/groundtruth/', string.
                 relative path to the directory that contains the training data set masks.
-            testing_images_dir = None, string.
+            testing_images_dir = 'test_set_images/', string.
                 relative path to the directory that contains the testing data set images.
             predicted_dir = 'results/', string.
                 relative path to the directory that will contain the predicted masks.
