@@ -10,7 +10,6 @@ The provided code allows you to create and train a new model given a bench of in
 The project depends on many external libraries that help us compute tough tasks. Here is the list of which your environment must satisfy before you run the code.
 
 - `numpy` : Allows different kind of operations on multi-dimensional arrays. 
-- `imageio`: Allows to load and save images.
 - `Keras` : Allows a simplified use of 'Tensorflow' library.   
 - `Tensorflow` : Allows to model and train a neural network
 - `matplotlib` : Allows to display results under graphs or images. It ùalso provide tools to load images.
