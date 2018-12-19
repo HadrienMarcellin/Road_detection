@@ -14,7 +14,6 @@ The project depends on many external libraries that help us compute tough tasks.
 - `Keras` : Allows a simplified use of 'Tensorflow' library.   
 - `Tensorflow` : Allows to model and train a neural network
 - `matplotlib` : Allows to display results under graphs or images. It ùalso provide tools to load images.
-- `tqdm`: Allows to display loading bars in 'for' loop.
 - `scikit-image` : Provides tools to process rgb and greyscale images.  
 - `scipy`: Provides tools to save images.
 - `sklearn` : Provides computations for f1 score and other metrics.
