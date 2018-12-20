@@ -57,4 +57,10 @@ Once ready, you can run the script from the terminal :
 ```
 python main.py
 ```
+## Results
 
+|Model Characteristics | ID | F1 Score |
+|:--|:--:|:--:|
+|Base model    |     24566    |   0.580 ||
+|Simple model  |     23429    |    0.836  ||
+|Final model   |     24819    |   0.897    ||
