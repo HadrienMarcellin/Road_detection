@@ -52,6 +52,7 @@ You will find in the run.py a call function for the initialisation of an object 
 - `make_training` : (*default* =  True). Perform training if True.
 
 You may edit this `main.py` file and tune the parameters of interest to change the training of the model.  
+  
 Once ready, you can run the script from the terminal :
 ```
 python main.py
