@@ -7,113 +7,36 @@ import matplotlib.pyplot as plt
 from skimage import data, exposure, img_as_float
 
 
-
-
 # Helper functions
 
 def load_image(infilename):
     data = mpimg.imread(infilename)
     return data
-
+###############################################################
 def img_float_to_uint8(img):
     rimg = img - np.min(img)
     rimg = (rimg / np.max(rimg) * 255).round().astype(np.uint8)
     return rimg
 
-# Concatenate an image and its groundtruth
-def concatenate_images(img, gt_img):
-    nChannels = len(gt_img.shape)
-    w = gt_img.shape[0]
-    h = gt_img.shape[1]
-    if nChannels == 3:
-        cimg = np.concatenate((img, gt_img), axis=1)
-    else:
-        gt_img_3c = np.zeros((w, h, 3), dtype=np.uint8)
-        gt_img8 = img_float_to_uint8(gt_img)          
-        gt_img_3c[:,:,0] = gt_img8
-        gt_img_3c[:,:,1] = gt_img8
-        gt_img_3c[:,:,2] = gt_img8
-        img8 = img_float_to_uint8(img)
-        cimg = np.concatenate((img8, gt_img_3c), axis=1)
-    return cimg
-
-def img_crop(im, w, h):
-    list_patches = []
-    imgwidth = im.shape[0]
-    imgheight = im.shape[1]
-    is_2d = len(im.shape) < 3
-    for i in range(0,imgheight,h):
-        for j in range(0,imgwidth,w):
-            if is_2d:
-                im_patch = im[j:j+w, i:i+h]
-            else:
-                im_patch = im[j:j+w, i:i+h, :]
-            list_patches.append(im_patch)
-    return list_patches
-
-#######################################################
-
-def label_to_img(imgwidth, imgheight, w, h, labels):
-    im = np.zeros([imgwidth, imgheight])
-    idx = 0
-    for i in range(0,imgheight,h):
-        for j in range(0,imgwidth,w):
-            im[j:j+w, i:i+h] = labels[idx]
-            idx = idx + 1
-    return im
-
-def label_patch_to_img_patch(imgwidth, imgheight, w, h, labels):
-    im = np.zeros([imgwidth, imgheight])
-    print("Creating mask image of size ({0}, {1}), using patches of size ({2}, {3}) ...".format(imgwidth, imgheight, w, h))
-    
-    idx_i = 0
-    for i in range(0,imgheight,h):
-        idx_j = 0
-        for j in range(0,imgwidth,w):
-            #print("idx_j = {0}".format(idx_j))
-            im[j:j+w, i:i+h] = labels[idx_j, idx_i]
-            idx_j = idx_j + 1
-        idx_i = idx_i + 1
-    return im
-
-def label_to_img_patch(imgwidth, imgheight, w, h, labels):
-    im = np.zeros([imgwidth, imgheight])
-    idx = 0
-    for i in range(0,imgheight,h):
-        for j in range(0,imgwidth,w):
-            im[j:j+w, i:i+h] = labels[idx, :, :]
-            idx = idx + 1
-    return im
-
-def patch_to_img(patches):
-    
-    imgheight = 400
-    imwidth = 400
-    im = np.zeros([imwidth,imgheight])
-    h = 16
-    w = 16
-    idx=0
-    for i in range(0,imgheight,h):
-        for j in range(0,imwidth,w):
-            im[j:j+w, i:i+h] = patches[idx, :, :]
-            idx = idx + 1
-    return im
-
-def make_img_overlay(img, predicted_img):
-    w = img.shape[0]
-    h = img.shape[1]
-    color_mask = np.zeros((w, h, 3), dtype=np.uint8)
-    color_mask[:,:,0] = predicted_img*255
-
-    img8 = img_float_to_uint8(img)
-    background = Image.fromarray(img8, 'RGB').convert("RGBA")
-    overlay = Image.fromarray(color_mask, 'RGB').convert("RGBA")
-    new_img = Image.blend(background, overlay, 0.2)
-    return new_img
-
-############################################################
+###############################################################
 
 def improve_image_contrast(imgs_array):
+    """
+    Description : 
+    ---------------
+    Improves the contrast of an image pased on pratical experience
+    
+    Parameters:
+    ---------------
+    imgs_array: np.array
+        3D or 4D numpy array. is an array containing images in grey scale or RGB.
+    
+    Returns : 
+    ---------------
+    imgs_array: np.array
+        numpy array of the same size of the input with augmented contrast.
+    """
+    
     
     for img in range(imgs_array.shape[0]):
         v_min, v_max = np.percentile(imgs_array[img], (3.0, 97.0))
@@ -122,6 +45,21 @@ def improve_image_contrast(imgs_array):
 #############################################################
 
 def contineous_to_binary_mask(mask, threshold = 0.25):
+    """
+    Description :
+    ---------------
+    Transform a mask with contineous values into a binary mask given the threshold.
+    
+    Parameters:
+    ---------------
+    mask: np.array
+        2D numpy array with the contineous mask
+    
+    Returns : 
+    --------------
+    mask : np.array
+        2D numpy array with the binary mask
+    """
     
     mask[np.where(mask>threshold)] = 1
     mask[np.where(mask<=threshold)] = 0
@@ -138,21 +76,28 @@ def value_to_class(v, foreground_threshold):
     else:
         return 0
     
-############################################################
-
-
-def resize_image_array(array_of_images, new_size = (512, 512)):
-    
-    new_array_of_image = np.zeros((array_of_images.shape[0], new_size[0], new_size[1]))
-    
-    for image in range(array_of_images.shape[0]):
-            new_array_of_image[image,:,:] = cv.resize(array_of_images[image,:,:], new_size)
-            
-    return new_array_of_image
-
 ###########################################################
 
 def imgs_array_to_imgs_patch_array(images_array, patch_size = 128, pixel_increment = 16):
+    """
+    Description : 
+    -----------------
+    Transform an array of grey-scale images into an array of overlapping grey scale patches.
+    
+    Parameters : 
+    -----------------
+    imgs_array : np.array
+        3D numpy array containing grey scale images.
+    patch_size : int.
+        Assuming a square patches, this is the length of the side of the patch in pixels .
+    pixel_increments = 16 : int.
+        number of pixels to shift one patch from the next.
+        
+    Returns :
+    ---------------
+    imgs_patchs_array : np.array.
+        3D dimenssionnal numpy array containing the patches.
+    """
     
     nb_pose = int((images_array.shape[1]-patch_size)/pixel_increment) + 1
 
@@ -172,8 +117,30 @@ def imgs_array_to_imgs_patch_array(images_array, patch_size = 128, pixel_increme
 
     return imgs_patchs_array
 
+#################################################################
 
 def imgs_patch_array_to_imgs_array(imgs_patchs_array, nb_imgs, image_size, pixel_increment = 16):
+    """
+    Description : 
+    -----------------
+    Transform an array of grey-scale images into an array of overlapping grey scale patches.
+    
+    Parameters : 
+    -----------------
+    imgs_patchs_array : np.array.
+        3D dimenssionnal numpy array containing the patches.
+    nb_imgs : int.
+        Number of images to recover 
+    image_size : int.
+        Assuming a square image, this is the length of the side of the image in pixels .
+    pixel_increments = 16 : int.
+        number of pixels to shift one patch from the next.
+        
+    Returns :
+    ---------------
+    imgs_array : np.array
+        3D numpy array containing grey scale images.
+    """
     
     patch_size = imgs_patchs_array.shape[1]
     imgs_array = np.zeros((nb_imgs, image_size, image_size))
